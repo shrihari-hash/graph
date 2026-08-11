@@ -1,0 +1,71 @@
+class Solution {
+private:
+    // BFS function to check whether a connected component is bipartite
+    bool check(int start, vector<int>& vis, vector<vector<int>>& adj) {
+        queue<int> q;
+
+        // Start BFS from the given node
+        q.push(start);
+
+        // Assign first color (0) to the starting node
+        vis[start] = 0;
+
+        // Standard BFS traversal
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+
+            // Visit all adjacent nodes
+            for (auto it : adj[node]) {
+
+                // If the neighbor is not colored yet
+                if (vis[it] == -1) {
+                    // Assign opposite color to the neighbor
+                    vis[it] = !vis[node];
+                    q.push(it);
+                }
+                // If the neighbor has the same color, graph is not bipartite
+                else if (vis[it] == vis[node]) {
+                    return false;
+                }
+            }
+        }
+
+        // No conflict found in this component
+        return true;
+    }
+
+public:
+    bool isBipartite(int V, vector<vector<int>>& edges) {
+
+        // Step 1: Build adjacency list from edge list
+        vector<vector<int>> adj(V);
+
+        for (auto &e : edges) {
+            int u = e[0];
+            int v = e[1];
+
+            // Since the graph is undirected
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+
+        // vis array stores colors:
+        // -1 = unvisited, 0 and 1 = two different colors
+        vector<int> vis(V, -1);
+
+        // Step 2: Check every connected component
+        for (int i = 0; i < V; i++) {
+            if (vis[i] == -1) {
+
+                // If any component is not bipartite, return false
+                if (!check(i, vis, adj)) {
+                    return false;
+                }
+            }
+        }
+
+        // All components are bipartite
+        return true;
+    }
+};
