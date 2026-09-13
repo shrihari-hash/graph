@@ -76,3 +76,74 @@ public:
         return ans;
     }
 };
+
+// topo sort using stack method  
+// pick  s node then go to the deepest node that will be children 
+// then push that children and the parent of that children in this way 
+
+class Solution {
+  private:
+  void topo(int node , vector<vector<int>>& adj , vector<int>&vis
+  , stack<int>&st){
+      
+      
+        vis[node] = 1;
+        
+        for( auto it : adj[node]){
+            if(!vis[it]){
+                topo(it,adj,vis,st);
+            }
+        }
+  
+      
+      st.push(node);
+  }
+  public:
+    vector<int> topoSort(int V, vector<vector<int>>& edges) {
+        // code here
+        vector<vector<int>>adj(V);
+        
+        for( auto &e: edges){
+             int u = e[0];
+             int v = e[1];
+             adj[u].push_back(v);
+        }
+    
+        
+        vector<int> vis(V,0);
+        stack<int>st;
+        
+        for( int i = 0 ; i<V ; i++){
+             if(!vis[i]){
+                 topo(i,adj,vis,st);
+             }
+        }
+        
+        
+        
+        
+        
+        
+        vector<int> ans;
+
+               while (!st.empty()) {
+                   ans.push_back(st.top());
+                   st.pop();
+               }
+
+               return ans;
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    }
+};
