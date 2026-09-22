@@ -19,11 +19,10 @@ int main(){
             rank.resize(n+1, 0);     // all ranks start at 0
             parent.resize(n+1);
 
-            for(int i = 0; i < n; i++){
+            for(int i = 0; i <=n; i++){
                 parent[i] = i;        // each node is its own leader/root initially
             }
-            // NOTE: bug — loop should be i <= n (0 to n inclusive) since vectors are sized n+1.
-            // As written, parent[n] never gets initialized to n.
+         
         }
 
         // Find the "ultimate parent" (root/leader) of the set that 'node' belongs to
